@@ -111,5 +111,6 @@ if __name__=="__main__":
     parser.add_argument("keywords")
     parser.add_argument("dst1")
     parser.add_argument("dst2")
+    parser.add_argument("embedding_path")
     args = parser.parse_args()
-    main(args.dataset, args.keywords, args.dst1, args.dst2)
+    main(args.dataset, args.keywords, args.dst1, args.dst2, args.embedding_path)
