@@ -35,7 +35,7 @@ def extract_entities(data, device):
 	    "I-LOC"    # Location
 	]
 
-	all_keys = []
+	all_keys = {}
 	
 	for key in tqdm(data):
 		temp = {}
@@ -108,12 +108,10 @@ def extract_entities(data, device):
 		        "config" : tmp_config,
 		        "content" : tmp_content, 
 		        "conversation_rating" : tmp_rating}
-		all_keys.append({key:temp})
-
+		all_keys[key] = temp
 	print('Done!')
-	print(type(all_keys))
-	print(type(all_keys[0]))
-	return all_keys[0]
+	
+	return all_keys
 
 def entities_stats(data):
 	ent_dict = {}
@@ -268,9 +266,8 @@ if __name__=="__main__":
 
 	if args.mode =="extract":
 		data = extract_keywords(data)
-		print(data)
 		data = extract_entities(data, device)
-		print(data)
+		
 		with open(os.path.join(args.data_dir,args.fname+'_comp.json'), 'w') as fw:
 			json.dump(data, fw, sort_keys=False, ensure_ascii=False, indent=5)
 
