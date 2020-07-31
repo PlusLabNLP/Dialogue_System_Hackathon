@@ -1,0 +1,7 @@
+
+torch==1.4.0
+python==3.6
+transformers==3.0.0
+yake==0.3.7
+
+
