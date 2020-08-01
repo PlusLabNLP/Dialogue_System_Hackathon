@@ -2,9 +2,9 @@ import json
 import copy
 import pandas as pd
 import re
-from rake_nltk import Rake
+#from rake_nltk import Rake
 import numpy as np 
-from pymagnitude import *
+#from pymagnitude import *
 from nltk.tokenize import word_tokenize
 from tqdm import tqdm
 
@@ -134,7 +134,7 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
         t1 = json.load(f)
         t2 = json.load(g)
     dataset = []
-    print('Total number of dialog: ',len(t1.keys()))
+    #print('Total number of dialog: ',len(t1.keys()))
     num1=0
     for i in t1.keys():
         num1 = num1+1
