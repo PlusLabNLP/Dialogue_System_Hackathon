@@ -243,14 +243,17 @@ def keywords_stats(data):
     print('number of utterances with at least one keyword and less than three keywords {}'.format(num_utts_less3_kwds))
 
 def entity_topic_label(conv, reading, entity_assign_path, data):
-    print(conv, reading, entity_assign_path)
+    #print(conv, reading, entity_assign_path)
     message_en,entity2,topic_general_en,s2 = label(conv, reading,entity_assign_path)
     index = list(data.keys())
     for idx_conv, idx_label in zip(index, s2):
         assert(len(data[idx_conv]['content'])==len(idx_label))
         for i in range(len(idx_label)):
-            data[idx_conv]['content'][i]['entity_reading_set']=entity2[idx_label[i]]
             data[idx_conv]['content'][i]['topic']=topic_general_en[idx_label[i]]
+            if topic_general_en[idx_label[i]]==['General']:
+                data[idx_conv]['content'][i]['entity_reading_set']=''
+            else:
+                data[idx_conv]['content'][i]['entity_reading_set']=entity2[idx_label[i]]
     return data
 
 
