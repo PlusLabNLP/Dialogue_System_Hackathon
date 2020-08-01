@@ -1,4 +1,5 @@
 import json
+from data_labeling.data_labeling import label
 import os
 import yake
 from tqdm import tqdm
@@ -241,6 +242,22 @@ def keywords_stats(data):
     print('avg number of utterance per conversation {}'.format(sum_num_utts/num_convs))
     print('number of utterances with at least one keyword and less than three keywords {}'.format(num_utts_less3_kwds))
 
+def entity_topic_label(conv, reading, entity_assign_path, data):
+    print(conv, reading, entity_assign_path)
+    message_en,entity2,topic_general_en,s2 = label(conv, reading,entity_assign_path)
+    index = list(data.keys())
+    for idx_conv, idx_label in zip(index, s2):
+        assert(len(data[idx_conv]['content'])==len(idx_label))
+        for i in range(len(idx_label)):
+            data[idx_conv]['content'][i]['entity_reading_set']=entity2[idx_label[i]]
+            data[idx_conv]['content'][i]['topic']=topic_general_en[idx_label[i]]
+
+
+
+    return data
+
+
+
 
 if __name__=="__main__":
 
@@ -256,6 +273,9 @@ if __name__=="__main__":
 
 	parser.add_argument('--mode', type=str, default="extract",
                     help='mode can be extract or stats for extraction or just getting statistics.')
+    parser.add_argument('--reading', type=str, default="alexa-prize-topical-chat-dataset/reading_sets/post-build",help='the directory including the reading source data')
+    parser.add_argument('--entity_assign_path', type=str, default='data_labeling/entity_topic_assign.csv',help='entity-topic mapping file')
+
 	args = parser.parse_args()
 	
 	device = torch.device(args.device)
@@ -267,7 +287,9 @@ if __name__=="__main__":
 	if args.mode =="extract":
 		data = extract_keywords(data)
 		data = extract_entities(data, device)
-		
+        conv = os.path.join(args.data_dir,args.fname+'.json')
+        reading = os.path.join(args.reading,args.fname+'.json')
+		data = entity_topic_label(conv, reading, args.entity_assign_path, data)
 		with open(os.path.join(args.data_dir,args.fname+'_comp.json'), 'w') as fw:
 			json.dump(data, fw, sort_keys=False, ensure_ascii=False, indent=5)
 
