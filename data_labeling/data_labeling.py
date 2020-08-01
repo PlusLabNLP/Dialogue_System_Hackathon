@@ -317,7 +317,8 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
             temp.append(s1)
         s2.append([])
         s2[-1] = copy.copy(temp)
-
+    
+    change_total_number = 0
     topic_with_general = []
     change = []
     ext = {'Fashion':['fashion'],
@@ -353,6 +354,9 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
                 else:
                     topic_with_general.append(topic_as[i])
             else:
+                '''
+                # this will implement checking algorithm to sentences having FS.
+                change_total_number += 1 
                 check = False
                 tmp_sent = str(message[i]).lower()
                 ext_temp = []
@@ -371,9 +375,16 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
                     change.append(i)
                 else:
                     topic_with_general.append(topic_as[i])
+                '''
+                # this will not implement checking algorithm to sentences having FS. 
+                if all_entity[i][-1]=='INFER':
+                    topic_with_general.append(['General'])
+                else:
+                    topic_with_general.append(topic_as[i])
+                
         else:
             topic_with_general.append(topic_as[i])
-
+    #print(len(change), change_total_number)
     message_en=[]
     entity_en=[]
     topic_en=[]
