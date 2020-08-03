@@ -261,7 +261,7 @@ def entity_topic_label(conv, reading, entity_assign_path, data):
 
 if __name__=="__main__":
 
-    parser = argparse.ArgumentParser(description='Parameters for data preprocessing')
+    parser = argparse.ArgumentParser(description='Parameters for relevancy classification')
     parser.add_argument('--device', type=str, default="cuda",
                     help='type of device to run models (cpu/cuda)')
 
