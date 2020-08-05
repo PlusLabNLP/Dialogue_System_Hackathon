@@ -13,14 +13,6 @@ import numpy as np
 lookup = { i[1] : i[2] for i in csv.reader(open('./entity_topic_assignment.csv', 'rt')) }
 
 reading_sets = json.load(open('../alexa-prize-topical-chat-dataset/reading_sets/post-build/train.json'))
-vectors = Magnitude('./word2vec/GoogleNews-vectors-negative300.magnitude')
-entity_keys = {}
-for i in lookup:
-    tmp = re.sub(r'[^\w\s]', '', i)
-    tmp = re.sub(r'[0-9]+', '', tmp)
-    tmp = word_tokenize(tmp.lower())
-    entity_keys[i] = vectors.query(tmp)[-1]
-
 #TODO
 # rule2 <-> rule3 <-> rule5 merge
 # rule4 <-> rule6 merge
@@ -102,35 +94,6 @@ def rule_4(data, row, all_labels,most_common_topic=None  ):
     return labels
  
 
-def gold_label_classifier(sentence, label, rule):
-    
-    if rule==1:
-        return 'Y'
-
-    r = Rake()
-    r.extract_keywords_from_text(sentence)
-    keywords = r.get_ranked_phrases()
-    if keywords==[]:
-        return 'G'
-    keyword1 = keywords[0]
-    pdb.set_trace()
-    keyword1 = re.sub(r'[^\w\s]', '', keyword1)
-    keyword1 = re.sub(r'[0-9]+','',keyword1)
-    keyword1_query = vectors.query(word_tokenize(keyword1.lower()))
-
-    else:
-        match_entity = ''
-        dist = -1
-        for key in entity_keys:
-            dist_tmp = np.linalg.norm(np.matmul(keyword1_query,entity_keys[key].T))
-            if dist_tmp>dist:
-                dist = dist_tmp
-                match_entity = key
-        if lookup[match_entity] in label:
-            return 'Y'
-        else:
-            return 'N'
-
 rules = [ rule_1 , rule_2, rule_3, rule_4 ]
 
 reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
@@ -166,7 +129,6 @@ for i, rule in enumerate(rules,1):
         labels = rule( data, row,all_labels,most_common_topic) if i==4 else rule( data, row,all_labels,None)
         if (len(labels))>0:
             all_labels[(row['conv_id'],row['i'])] = (rule_name ,labels)
-            agreement = gold_label_classifier(row['utt'],labels,i)
 writer = csv.writer(open('./data/labels.tsv', 'wt'), delimiter='\t')
 for (conv_id, idx), (rulename, labels) in all_labels.items():
-    writer.writerow((conv_id, idx, rulename, json.dumps(labels), json.dumps([agreement])))
+    writer.writerow((conv_id, idx, rulename, json.dumps(labels)))
