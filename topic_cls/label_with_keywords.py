@@ -32,22 +32,23 @@ for i in lookup:
 def gold_label_classifier(conv_id,i,sentence, label, rule):
     
     if rule==1:
-        return 'Y'
+        return None
 
-    #r = Rake()
-    #r.extract_keywords_from_text(sentence)
-    keywords = conv_set[conv_id]['content'][int(i)]["keywords_2"]
-
+    r = Rake()
+    r.extract_keywords_from_text(sentence)
+    keywords = r.get_ranked_phrases()
     if keywords==[]:
-        return 'G'
+        return '9'
     else:
-        keyword1 = []
-        keyword1 = [keyword1.extend(i.split()) for i in keywords]
-        keyword1 = list(set(keyword1))
+        keyword1 = keywords[0]
+        #keyword1 = [keyword1.extend(i.split()) for i in keywords]
+        #keyword1 = list(set(keyword1))
         #pdb.set_trace()
         #keyword1 = re.sub(r'[^\w\s]', '', keyword1)
         #keyword1 = re.sub(r'[0-9]+','',keyword1)
+        #keyword1 = [i.lower() in keyword1]
         keyword1_query = vectors.query(word_tokenize(keyword1.lower()))
+        #pdb.set_trace()
         match_entity = ''
         dist = -1
         for key in entity_keys:
@@ -56,15 +57,15 @@ def gold_label_classifier(conv_id,i,sentence, label, rule):
                 dist = dist_tmp
                 match_entity = key
         if lookup[match_entity] in label:
-            return 'Y'
+            return lookup[match_entity]
         else:
-            return 'N'
+            return None
 
-rules = [ rule_1 , rule_2, rule_3, rule_4 ]
+#rules = [ rule_1 , rule_2, rule_3, rule_4 ]
 reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
 label = csv.reader(open('./data/labels.tsv','rt'),delimiter='\t')
 data = { (row[0], row[1]) : row for row in reader  }
-all_labels ={(row[0], row[1]):[row[2], row[3] ,None] for row in label}
+all_labels ={(row[0], row[1]):[row[2], row[3]] for row in label}
 label = csv.reader(open('./data/labels.tsv','rt'),delimiter='\t')
 header = next(label)
 for row in label:
@@ -77,6 +78,6 @@ for row in label:
     all_labels[row['conv_id'], row['i']][-1]=[agreement]
 
 
-writer = csv.writer(open('./data/labels_with_kw.tsv', 'wt'), delimiter='\t')
-for (conv_id, idx), [rulename, labels, agreement] in all_labels.items():
-    writer.writerow((conv_id, idx, rulename, labels, json.dumps(agreement)))
+writer = csv.writer(open('./data/labels_with_kw1.tsv', 'wt'), delimiter='\t')
+for (conv_id, idx), [rulename, labels ] in all_labels.items():
+    writer.writerow((conv_id, idx, rulename, json.dumps(labels)))#,json.dumps(agreement)))
