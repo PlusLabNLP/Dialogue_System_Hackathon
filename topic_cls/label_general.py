@@ -23,7 +23,7 @@ for conv_id, i in keys:
 for conv_id in data:
     for i in [0,1,-2,-1]:
         if data[conv_id]['content'][i]['keywords_2']==[] and data[conv_id]['content'][i]['topic']!='General':
-            data[conv_id]['content'][i]['topic'] = 'General'
+            data[conv_id]['content'][i]['topic'] = ['General']
             data[conv_id]['content'][i]["entity_reading_set"] = ''
             try:
                 all_labels[(conv_id,str(conv[conv_id][i]))][-1]=['9']
@@ -38,12 +38,52 @@ writer = csv.writer(open('./data/labels_agreemet_general.tsv','wt'),delimiter='\
 for (conv_id,idx), [rulename, labels_, agreement, general] in all_labels.items():
     writer.writerow((conv_id, idx, rulename, json.dumps(labels_),json.dumps(agreement),json.dumps(general)))
 
-
-
-
-
-
-
-
+#num1 = 0
+#num2 = 0
+#num3 = 0
+#num4 = 0
+#num5 = [0,0,0,0] # count General with FS
+#num6 = [0,0,0,0] # count non-General with non-FS
+#
+#for conv_id in data:
+#    if data[conv_id]['content'][0]['topic']==['General']:
+#        num1+=1
+#        if len(set(data[conv_id]['content'][0]['knowledge_source']) & set(['FS1','FS2','FS3']))>0:
+#            num5[0]+=1
+#    else:
+#        if len(set(data[conv_id]['content'][0]['knowledge_source']) & set(['FS1','FS2','FS3']))==0:
+#            num6[0]+=1
+#
+#    if data[conv_id]['content'][1]['topic']==['General']:
+#        num2+=1
+#        if len(set(data[conv_id]['content'][1]['knowledge_source']) & set(['FS1','FS2','FS3']))>0:
+#            num5[1]+=1
+#    else:
+#        if len(set(data[conv_id]['content'][1]['knowledge_source']) & set(['FS1','FS2','FS3']))==0:
+#            num6[1]+=1
+#
+#    if data[conv_id]['content'][-2]['topic']==['General']:
+#        num3+=1
+#        if len(set(data[conv_id]['content'][-2]['knowledge_source']) & set(['FS1','FS2','FS3']))>0:
+#            num5[-2]+=1
+#    else:
+#        if len(set(data[conv_id]['content'][-2]['knowledge_source']) & set(['FS1','FS2','FS3']))==0:
+#            num6[-2]+=1
+#
+#    if data[conv_id]['content'][-1]['topic']==['General']:
+#        num4+=1 
+#        if len(set(data[conv_id]['content'][-1]['knowledge_source']) & set(['FS1','FS2','FS3']))>0:
+#            num5[-1]+=1
+#    else:
+#        if len(set(data[conv_id]['content'][-1]['knowledge_source']) & set(['FS1','FS2','FS3']))==0:
+#            num6[-1]+=1
+#print(len(data))
+#print(num1+num2+num3+num4)
+#print(num1, num2, num3, num4)
+#print(num5)
+#print(num6)
+#
+#
+#
 
 
