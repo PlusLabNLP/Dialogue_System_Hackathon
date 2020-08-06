@@ -34,9 +34,9 @@ for conv_id in data:
 with open('train_comp_v2.json','w') as fw:
     json.dump(data,fw,sort_keys=False,ensure_ascii=False, indent=5)
 
-writer = csv.writer(open('./data/labels_agreemet_general.tsv','wt'),delimiter='\t')
-for (conv_id,idx), [rulename, labels_, agreement, general] in all_labels.items():
-    writer.writerow((conv_id, idx, rulename, json.dumps(labels_),json.dumps(agreement),json.dumps(general)))
+writer = csv.writer(open('./data/labels_general.tsv','wt'),delimiter='\t')
+for (conv_id,idx), [rulename, labels_, agreement,general] in all_labels.items():
+    writer.writerow((conv_id, idx, rulename, json.dumps(general)))
 
 #num1 = 0
 #num2 = 0
