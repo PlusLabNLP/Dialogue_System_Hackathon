@@ -13,7 +13,7 @@ for general_row, keyword_row, rule_row in zip(general_labels, keyword_labels, ru
     if general_row[3] != 'null':
         # general
         label = 'gold:general'
-    if rule_row[2] == 'rule_1':
+    elif rule_row[2] == 'rule_1':
         # gold rule_1
         label = 'gold:rule_1'
     else:
