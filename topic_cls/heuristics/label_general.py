@@ -17,8 +17,6 @@ for conv_id, i in keys:
     else:
         conv[conv_id].append(int(i))
 
- 
-
 
 for conv_id in data:
     for i in [0,1,-2,-1]:

@@ -106,6 +106,9 @@ for i, rule in enumerate(rules,1):
     rule_name = 'rule_%d' % i
     for row in reader:
         row = { i: j for i, j in zip(header, row) }
+        # TODO
+        # most common topic needs to be refactored
+        # into the fourth rule, putting it here is confusing
         topics = []
         if row['i']=='0' and  i==4:
             counter = Counter()
