@@ -15,7 +15,7 @@ predictor = BertClassificationPredictor(
         do_lower_case=True)
 
 texts = list(csv.reader(open(sys.argv[3], 'rt')))
-multiple_predictions = predictor.predict_batch(i[1] for i in texts)
+multiple_predictions = predictor.predict_batch(i[1] for i in texts[1:])
 
 with open(sys.argv[4], 'wt') as fh:
     arg_maxes = [ i[0][0]+'\n' for i in multiple_predictions ]
@@ -23,6 +23,6 @@ with open(sys.argv[4], 'wt') as fh:
 
 # report accuracy
 print(texts[0])
-gold = [ i[2] for i in texts ]
-accuracy = sum([ i.strip() == j.strip() for i, j in zip(gold, arg_maxes) ]) / len(gold)
+gold = [ i[1] for i in texts[1:] ]
+accuracy = sum([ i.strip() == j.strip() for i, j in zip(gold, arg_maxes) ]) / len(gold-1)
 print('Accuracy: %f' % accuracy)
