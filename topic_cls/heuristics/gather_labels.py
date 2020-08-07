@@ -1,4 +1,5 @@
 import csv
+import json
 
 general_labels = csv.reader(open('data/labels_general.tsv', 'rt'), delimiter='\t')
 keyword_labels = csv.reader(open('data/labels_from_keywords.tsv', 'rt'), delimiter='\t')
@@ -13,17 +14,22 @@ for general_row, keyword_row, rule_row in zip(general_labels, keyword_labels, ru
     if general_row[3] != 'null':
         # general
         label = 'gold:general'
+        print('here')
+        topics = [ '9' ]
     elif rule_row[2] == 'rule_1':
         # gold rule_1
         label = 'gold:rule_1'
+        topics = json.loads(rule_row[3])
     else:
         # double agreement
         if keyword_row[4] in rule_row[3]:
             label = 'gold:agreement:%s' % rule_row[2]
+            topics = [ keyword_row[4] ]
         else:
             label = rule_row[2]
+            topics = json.loads(rule_row[3])
 
-    writerow = [ conv_id, idx, label ]
+    writerow = [ conv_id, idx, label, json.dumps(topics) ]
     gathered.writerow(writerow)
 
 if next(general_labels, None) or next(keyword_labels, None) or next(rule_labels, None):
