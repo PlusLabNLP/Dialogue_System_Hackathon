@@ -1,0 +1,127 @@
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): s3.amazonaws.com:443
+DEBUG:urllib3.connectionpool:https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/bert-base-uncased-config.json HTTP/1.1" 200 0
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-config.json from cache at /nas/home/zixiliu/.cache/torch/transformers/4dad0251492946e18ac39290fcfe91b89d370fee250efe9521476438fe8ca185.7156163d5fdc189c3016baca0775ffce230789d7fa2a42ef516483e4ca884517
+INFO:transformers.configuration_utils:Model config BertConfig {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "gradient_checkpointing": false,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "pad_token_id": 0,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): s3.amazonaws.com:443
+DEBUG:urllib3.connectionpool:https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/bert-base-uncased-vocab.txt HTTP/1.1" 200 0
+INFO:transformers.tokenization_utils_base:loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt from cache at /nas/home/zixiliu/.cache/torch/transformers/26bc1ad6c0ac742e9b52263248f6d0f00068293b33709fae12320c0e35ccfbbb.542ce4285a40d23a559526243235df47c5f75c197f04f37d1a0c124c32c9a084
+INFO:root:Loading features from cached file data/cache/cached_bert_train_multi_class_50_train.csv
+INFO:root:Loading features from cached file data/cache/cached_bert_dev_multi_class_50_valid.csv
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): s3.amazonaws.com:443
+DEBUG:urllib3.connectionpool:https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/bert-base-uncased-config.json HTTP/1.1" 200 0
+INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-config.json from cache at /nas/home/zixiliu/.cache/torch/transformers/4dad0251492946e18ac39290fcfe91b89d370fee250efe9521476438fe8ca185.7156163d5fdc189c3016baca0775ffce230789d7fa2a42ef516483e4ca884517
+INFO:transformers.configuration_utils:Model config BertConfig {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "gradient_checkpointing": false,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1",
+    "2": "LABEL_2",
+    "3": "LABEL_3",
+    "4": "LABEL_4",
+    "5": "LABEL_5",
+    "6": "LABEL_6",
+    "7": "LABEL_7",
+    "8": "LABEL_8"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1,
+    "LABEL_2": 2,
+    "LABEL_3": 3,
+    "LABEL_4": 4,
+    "LABEL_5": 5,
+    "LABEL_6": 6,
+    "LABEL_7": 7,
+    "LABEL_8": 8
+  },
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "pad_token_id": 0,
+  "type_vocab_size": 2,
+  "vocab_size": 30522
+}
+
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cdn.huggingface.co:443
+DEBUG:urllib3.connectionpool:https://cdn.huggingface.co:443 "HEAD /bert-base-uncased-pytorch_model.bin HTTP/1.1" 200 0
+INFO:transformers.modeling_utils:loading weights file https://cdn.huggingface.co/bert-base-uncased-pytorch_model.bin from cache at /nas/home/zixiliu/.cache/torch/transformers/f2ee78bdd635b758cc0a12352586868bef80e47401abe4c4fcc3832421e7338b.36ca03ab34a1a5d5fa7bc3d03d55c4fa650fed07220e2eeebc06ce58d0e9a157
+WARNING:transformers.modeling_utils:Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+- This IS expected if you are initializing BertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+- This IS NOT expected if you are initializing BertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+WARNING:transformers.modeling_utils:Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.weight', 'classifier.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+INFO:root:***** Running training *****
+INFO:root:  Num examples = 100101
+INFO:root:  Num Epochs = 3
+INFO:root:  Total train batch size (w. parallel, distributed & accumulation) = 64
+INFO:root:  Gradient Accumulation steps = 1
+INFO:root:  Total optimization steps = 4695
+██INFO:root:Running evaluation
+INFO:root:  Num examples = 42900
+INFO:root:  Batch size = 128
+█INFO:root:eval_loss after epoch 1: 0.6588299366689864: 
+INFO:root:eval_accuracy after epoch 1: 0.825967365967366: 
+/nas/home/zixiliu/anaconda3/lib/python3.7/site-packages/torch/optim/lr_scheduler.py:224: UserWarning: To get the last learning rate computed by the scheduler, please use `get_last_lr()`.
+  warnings.warn("To get the last learning rate computed by the scheduler, "
+INFO:root:lr after epoch 1: 5.095348582432274e-05
+INFO:root:train_loss after epoch 1: 1.3648974154513485
+INFO:root:
+
+█INFO:root:Running evaluation
+INFO:root:  Num examples = 42900
+INFO:root:  Batch size = 128
+█INFO:root:eval_loss after epoch 2: 0.5186869194731116: 
+INFO:root:eval_accuracy after epoch 2: 0.853986013986014: 
+INFO:root:lr after epoch 2: 1.8351063883978126e-05
+INFO:root:train_loss after epoch 2: 0.5858294132799386
+INFO:root:
+
+█INFO:root:Running evaluation
+INFO:root:  Num examples = 42900
+INFO:root:  Batch size = 128
+█INFO:root:eval_loss after step 4000: 0.5048681345457832: 
+INFO:root:eval_accuracy after step 4000: 0.8590675990675991: 
+INFO:root:lr after step 4000: 3.972558834567647e-06
+INFO:root:train_loss after step 4000: 0.8748650578334928
+INFO:root:Running evaluation
+INFO:root:  Num examples = 42900
+INFO:root:  Batch size = 128
+█INFO:root:eval_loss after epoch 3: 0.5038317016192845: 
+INFO:root:eval_accuracy after epoch 3: 0.8590909090909091: 
+INFO:root:lr after epoch 3: 0.0
+INFO:root:train_loss after epoch 3: 0.5120696598443741
+INFO:root:
+
+INFO:transformers.configuration_utils:Configuration saved in model_out/config.json
+INFO:transformers.modeling_utils:Model weights saved in model_out/pytorch_model.bin
