@@ -3,8 +3,8 @@ import json
 import pdb
 import pickle
 
-conversations = json.load(open('../alexa-prize-topical-chat-dataset/conversations/train.json'))
-reading_sets = json.load(open('../alexa-prize-topical-chat-dataset/reading_sets/post-build/train.json'))
+conversations = json.load(open('../../alexa-prize-topical-chat-dataset/conversations/train.json'))
+reading_sets = json.load(open('../../alexa-prize-topical-chat-dataset/reading_sets/post-build/train.json'))
 writer = csv.writer(open('./data/flat_data.tsv', 'wt', newline='\n'), delimiter='\t')
 
 header = ['conv_id', 'i', 'agent', 'utt', 'knowledge_sources', 'knowledge_strs', 'entities' ]

@@ -20,7 +20,7 @@ for conv_id, i in keys:
 
 for conv_id in data:
     for i in [0,1,-2,-1]:
-        if data[conv_id]['content'][i]['keywords_2']==[] and data[conv_id]['content'][i]['topic']!='General':
+        if data[conv_id]['content'][i]['keywords_2']==[] and data[conv_id]['content'][i]['topic']!=['General']:
             data[conv_id]['content'][i]['topic'] = ['General']
             data[conv_id]['content'][i]["entity_reading_set"] = ''
             try:
@@ -28,7 +28,10 @@ for conv_id in data:
             except:
                 print(conv_id,conv[conv_id][i])
                 pdb.set_trace()
-
+for conv_id in data:
+    for i in [0,1,-2,-1]:
+        if data[conv_id]['content'][i]['topic']==['General']:
+            all_labels[(conv_id,str(conv[conv_id][i]))][-1]=['9']
 with open('train_comp_v2.json','w') as fw:
     json.dump(data,fw,sort_keys=False,ensure_ascii=False, indent=5)
 
