@@ -15,7 +15,11 @@ import numpy as np
 lookup = { i[1] : i[2] for i in csv.reader(open('./entity_topic_assignment.csv', 'rt')) }
 
 # read in entity vectors
-vectors = Magnitude('./GoogleNews-vectors-negative300.magnitude')
+try:
+    vectors = Magnitude('./GoogleNews-vectors-negative300.magnitude')
+except:
+    raise Exception('Please download GoogleNews-vectors-negative300.magnitude from pymagnitude')
+
 
 known_entities = []
 entities_to_str = {}
@@ -40,11 +44,13 @@ def nearest_neighbor_labelling(sentence):
 
     return first_keyword, entities_to_str[matched_entity], lookup[entities_to_str[matched_entity]]
         
-reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
+
+DATASET = sys.argv[1] # input from 'train','test_freq','test_rare','valid_freq','valid_rare'
+reader = csv.reader(open('./data/flat_data_'+DATASET+'.tsv', 'rt'), delimiter='\t')
 header = next(reader)
 
-total = len(list(open('./data/flat_data.tsv', 'rt')))
-writer = csv.writer(open('./data/labels_from_keywords.tsv', 'wt'), delimiter='\t')
+total = len(list(open('./data/flat_data_'+DATASET+'.tsv', 'rt')))
+writer = csv.writer(open('./data/labels_from_keywords_'+DATASET+'.tsv', 'wt'), delimiter='\t')
 
 for row in tqdm(reader, total=total):
     row = { i: j for i, j in zip(header, row) }

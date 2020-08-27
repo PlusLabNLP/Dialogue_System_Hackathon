@@ -1,8 +1,11 @@
 import csv
 import json
+import os
+import sys
+import argparse
 
-def generate_examples(idx, out):
-    reader = csv.reader(open('/nas/home/jwei/Dialogue_System_Hackathon/topic_cls/heuristics/data/flat_data.tsv', 'rt'), delimiter='\t')
+def generate_examples(idx, out, src):
+    reader = csv.reader(open('../../heuristics/data/flat_data_'+src+'.tsv', 'rt'), delimiter='\t')
     header = next(reader)
     data = { (row[0], int(row[1])) : row for row in reader }
 
@@ -33,6 +36,15 @@ def generate_examples(idx, out):
 
         writer.writerow([inp_str, label])
 
-generate_examples('data/train_idx', 'data/train.csv')
-generate_examples('data/valid_idx', 'data/valid.csv')
-generate_examples('data/test_idx', 'data/test.csv')
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dataset',type=str,help='which dataset is used in Alexa topical dataset for testing, options can be train, valid_rare, valida_freq, test_freq, test_rare',required=True,choices=['train','valid_rare','valid_freq','test_freq','test_rare'])
+args = parser.parse_args()
+DATASET = args.dataset # select from train, valid_rare, valid_freq, test_freq, test_rare
+
+if DATASET=='train':
+    generate_examples('data/train_idx', 'data/train.csv', DATASET)
+    generate_examples('data/valid_idx', 'data/valid.csv', DATASET)
+    generate_examples('data/test_idx', 'data/test.csv', DATASET)
+else:
+    generate_examples('data/test_idx','data/test.csv', DATASET)

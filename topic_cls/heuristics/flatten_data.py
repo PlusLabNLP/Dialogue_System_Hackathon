@@ -2,10 +2,13 @@ import csv
 import json
 import pdb
 import pickle
+import sys
+import os
 
-conversations = json.load(open('../../alexa-prize-topical-chat-dataset/conversations/train.json'))
-reading_sets = json.load(open('../../alexa-prize-topical-chat-dataset/reading_sets/post-build/train.json'))
-writer = csv.writer(open('./data/flat_data.tsv', 'wt', newline='\n'), delimiter='\t')
+src = sys.argv[1] # input from 'train','test_freq','test_rare','valid_freq','valid_rare'
+conversations = json.load(open(os.path.join('../../alexa-prize-topical-chat-dataset/conversations',src+'.json')))
+reading_sets = json.load(open(os.path.join('../../alexa-prize-topical-chat-dataset/reading_sets/post-build',src+'.json')))
+writer = csv.writer(open('./data/flat_data_'+src+'.tsv', 'wt', newline='\n'), delimiter='\t')
 
 header = ['conv_id', 'i', 'agent', 'utt', 'knowledge_sources', 'knowledge_strs', 'entities' ]
 writer.writerow(header)

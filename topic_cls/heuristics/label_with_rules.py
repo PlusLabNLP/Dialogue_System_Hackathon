@@ -6,13 +6,15 @@ import codecs
 import collections
 import pdb
 from collections import Counter
-from rake_nltk import Rake
-from pymagnitude import *
-from nltk.tokenize import word_tokenize
-import numpy as np
+#from rake_nltk import Rake
+#from pymagnitude import *
+#from nltk.tokenize import word_tokenize
+#import numpy as np
+import sys
+import os
 lookup = { i[1] : i[2] for i in csv.reader(open('./entity_topic_assignment.csv', 'rt')) }
-
-reading_sets = json.load(open('../alexa-prize-topical-chat-dataset/reading_sets/post-build/train.json'))
+src = sys.argv[1]# input from 'train','test_freq','test_rare','valid_freq','valid_rare'
+reading_sets = json.load(open(os.path.join('../../alexa-prize-topical-chat-dataset/reading_sets/post-build',src+'.json')))
 #TODO
 # rule2 <-> rule3 <-> rule5 merge
 # rule4 <-> rule6 merge
@@ -96,11 +98,11 @@ def rule_4(data, row, all_labels,most_common_topic=None  ):
 
 rules = [ rule_1 , rule_2, rule_3, rule_4 ]
 
-reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
+reader = csv.reader(open('./data/flat_data_'+src+'.tsv', 'rt'), delimiter='\t')
 data = { (row[0], row[1]) : row for row in reader }
 all_labels = {i:('none',None) for i in data.keys()}
 for i, rule in enumerate(rules,1):
-    reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
+    reader = csv.reader(open('./data/flat_data_'+src+'.tsv', 'rt'), delimiter='\t')
     header = next(reader)
 
     rule_name = 'rule_%d' % i
@@ -132,6 +134,6 @@ for i, rule in enumerate(rules,1):
         labels = rule( data, row,all_labels,most_common_topic) if i==4 else rule( data, row,all_labels,None)
         if (len(labels))>0:
             all_labels[(row['conv_id'],row['i'])] = (rule_name ,labels)
-writer = csv.writer(open('./data/labels.tsv', 'wt'), delimiter='\t')
+writer = csv.writer(open('./data/labels_from_rules_'+src+'.tsv', 'wt'), delimiter='\t')
 for (conv_id, idx), (rulename, labels) in all_labels.items():
     writer.writerow((conv_id, idx, rulename, json.dumps(labels)))

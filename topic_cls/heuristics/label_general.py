@@ -2,10 +2,17 @@ import json
 import csv
 import pdb
 from nltk import word_tokenize
-data = json.load(open('train_comp.json','r'))
-label = csv.reader(open('./data/labels_with_kw.tsv','rt'),delimiter='\t')
-all_labels = {(row[0],row[1]):[row[2],json.loads(row[3]), json.loads(row[4]), None] for row in label}
-reader = csv.reader(open('./data/flat_data.tsv', 'rt'), delimiter='\t')
+import sys
+import os
+
+src = sys.argv[1] # input from 'train','test_freq','test_rare','valid_freq','valid_rare'
+try:
+    data = json.load(open(os.path.join('../../alexa-prize-topical-chat-dataset/conversations',src+'_comp.json'),'r'))
+except:
+    raise Exception('No dataset found in ../../alexa-prize-topical-chat-dataset/')
+label = csv.reader(open('./data/labels_from_rules_'+src+'.tsv','rt'),delimiter='\t')
+all_labels = {(row[0],row[1]):[row[2],json.loads(row[3]), None] for row in label}
+reader = csv.reader(open('./data/flat_data_'+src+'.tsv', 'rt'), delimiter='\t')
 flatten_data = { (row[0], row[1]) : row for row in reader  }
 keys = list(all_labels.keys())
 keys.remove(('conv_id','i'))
@@ -32,11 +39,11 @@ for conv_id in data:
     for i in [0,1,-2,-1]:
         if data[conv_id]['content'][i]['topic']==['General']:
             all_labels[(conv_id,str(conv[conv_id][i]))][-1]=['9']
-with open('train_comp_v2.json','w') as fw:
+with open(src+'_v2.json','w') as fw:
     json.dump(data,fw,sort_keys=False,ensure_ascii=False, indent=5)
 
-writer = csv.writer(open('./data/labels_general.tsv','wt'),delimiter='\t')
-for (conv_id,idx), [rulename, labels_, agreement,general] in all_labels.items():
+writer = csv.writer(open('./data/labels_general_'+src+'.tsv','wt'),delimiter='\t')
+for (conv_id,idx), [rulename, labels_, general] in all_labels.items():
     writer.writerow((conv_id, idx, rulename, json.dumps(general)))
 
 #num1 = 0

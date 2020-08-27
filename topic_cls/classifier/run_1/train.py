@@ -46,7 +46,7 @@ learner = BertLearner.from_pretrained_model(
 
 #learner.lr_find(start_lr=1e-5,optimizer_type='lamb')
 
-learner.fit(epochs=6,
+learner.fit(epochs=3,
         lr=6e-5,
         validate=True,  # Evaluate the model after each epoch
         schedule_type="warmup_cosine",

@@ -1,12 +1,15 @@
 import csv
 import json
+import sys
+import os
 
-general_labels = csv.reader(open('data/labels_general.tsv', 'rt'), delimiter='\t')
-keyword_labels = csv.reader(open('data/labels_from_keywords.tsv', 'rt'), delimiter='\t')
-rule_labels = csv.reader(open('data/labels_from_rules.tsv', 'rt'), delimiter='\t')
+src = sys.argv[1]# input from 'train','test_freq','test_rare','valid_freq','valid_rare'
+general_labels = csv.reader(open('data/labels_general_'+src+'.tsv', 'rt'), delimiter='\t')
+keyword_labels = csv.reader(open('data/labels_from_keywords_'+src+'.tsv', 'rt'), delimiter='\t')
+rule_labels = csv.reader(open('data/labels_from_rules_'+src+'.tsv', 'rt'), delimiter='\t')
 header = next(rule_labels)
 
-gathered = csv.writer(open('data/gathered_labels.tsv', 'wt'), delimiter='\t')
+gathered = csv.writer(open('data/gathered_labels'+'_'+src+'.tsv', 'wt'), delimiter='\t')
 
 for general_row, keyword_row, rule_row in zip(general_labels, keyword_labels, rule_labels):
     conv_id, idx = rule_row[0], rule_row[1]
