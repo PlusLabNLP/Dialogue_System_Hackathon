@@ -55,3 +55,4 @@ else:
     for row in reader:
         writer.writerow((row[0],row[1],json.loads(row[3])[0]))
  
+

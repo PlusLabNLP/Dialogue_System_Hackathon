@@ -27,7 +27,6 @@ for row in reader:
         test.append(row)
         #train.append(row)
 
-
 random.shuffle(train)
 valid_per = .3
 valid_idx = int(len(train) * .3)
@@ -54,3 +53,4 @@ else:
     for row in reader:
         writer.writerow((row[0],row[1],json.loads(row[3])[0]))
         
+

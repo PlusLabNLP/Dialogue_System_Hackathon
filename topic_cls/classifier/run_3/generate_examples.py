@@ -47,3 +47,4 @@ if DATASET=='train':
     generate_examples('data/test_idx', 'data/test.csv', DATASET)
 else:
     generate_examples('data/test_idx', 'data/test.csv', DATASET)
+

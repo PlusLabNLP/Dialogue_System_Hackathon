@@ -23,3 +23,4 @@ def statistic(FILE_PATH):
 if __name__=='__main__':
     FILE_PATH = path.join('data',sys.argv[1]) # input argument should be in ['train_idx','test_idx','valid_idx']
     total,counter = statistic(FILE_PATH)
+
