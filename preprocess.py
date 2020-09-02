@@ -6,6 +6,7 @@ from tqdm import tqdm
 import argparse
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 import torch
+import csv
 
 n_gram=3
 
@@ -242,7 +243,7 @@ def keywords_stats(data):
     print('avg number of utterance per conversation {}'.format(sum_num_utts/num_convs))
     print('number of utterances with at least one keyword and less than three keywords {}'.format(num_utts_less3_kwds))
 
-def entity_topic_label(conv, reading, entity_assign_path, data):
+def entity_topic_label(conv, reading,fname, entity_assign_path, data):
     #print(conv, reading, entity_assign_path)
     message_en,entity2,topic_general_en,s2 = label(conv, reading,entity_assign_path)
     index = list(data.keys())
@@ -254,6 +255,58 @@ def entity_topic_label(conv, reading, entity_assign_path, data):
                 data[idx_conv]['content'][i]['entity_reading_set']=''
             else:
                 data[idx_conv]['content'][i]['entity_reading_set']=entity2[idx_label[i]]
+    #with open(os.path.join('alexa-prize-topical-chat-dataset',fname+'_comp.json'), 'w') as fw:
+    #        json.dump(data, fw, sort_keys=False, ensure_ascii=False, indent=5)
+    os.system('cd topic_cls/heuristics/;python flatten_data.py %s;python label_with_rules.py %s;python label_with_keywords.py %s;cd ../..'%(fname,fname,fname))
+    label1 = csv.reader(open('./topic_cls/heuristics/data/labels_from_rules_'+fname+'.tsv','rt'),delimiter='\t')
+    all_labels = {(row[0],row[1]):[row[2],json.loads(row[3]), None] for row in label1}
+    reader = csv.reader(open('./topic_cls/heuristics/data/flat_data_'+fname+'.tsv', 'rt'), delimiter='\t')
+    flatten_data = { (row[0], row[1]) : row for row in reader  }
+    keys = list(all_labels.keys())
+    keys.remove(('conv_id','i'))
+    conv = {}
+    for conv_id, i in keys:
+        if conv_id not in conv:
+            conv[conv_id] = [int(i)]
+        else:
+            conv[conv_id].append(int(i))
+    
+    for conv_id in data:
+        for i in [0,1,-2,-1]:
+            if data[conv_id]['content'][i]['keywords_2']==[] and data[conv_id]['content'][i]['topic']!=['General']:
+                data[conv_id]['content'][i]['topic'] = ['General']
+                data[conv_id]['content'][i]["entity_reading_set"] = ''
+                try:
+                    all_labels[(conv_id,str(conv[conv_id][i]))][-1]=['9']
+                except:
+                    print(conv_id,conv[conv_id][i])
+                    pdb.set_trace()
+    for conv_id in data:
+        for i in [0,1,-2,-1]:
+            if data[conv_id]['content'][i]['topic']==['General']:
+                all_labels[(conv_id,str(conv[conv_id][i]))][-1]=['9']
+    general_labels = all_labels
+    lookup = { '1':'Fashion','2':'Politics','3':'Books','4':'Sports','5':'General Entertainment','6':'Music','7':'Science & Technology','8':'Movie' }
+    keyword_labels = csv.reader(open('./topic_cls/heuristics/data/labels_from_keywords_'+fname+'.tsv', 'rt'), delimiter='\t')
+    rule_labels = csv.reader(open('./topic_cls/heuristics/data/labels_from_rules_'+fname+'.tsv', 'rt'), delimiter='\t')
+    header = next(rule_labels)
+
+    for general_row, keyword_row, rule_row in zip(general_labels, keyword_labels, rule_labels):
+        conv_id, idx = rule_row[0], rule_row[1]
+        if data[conv_id]['content'][int(idx)]['topic'] == ['General'] :
+            pass
+        elif rule_row[2] == 'rule_1':
+            topics = json.loads(rule_row[3])
+            data[conv_id]['content'][int(idx)]['topic'] = [lookup[k] for k in topics]
+        else:
+            if keyword_row[4] in rule_row[3]:
+                data[conv_id]['content'][int(idx)]['topic'] = [lookup[keyword_row[4]]]
+            else:
+                topics = json.loads(rule_row[3])
+                try:
+                    data[conv_id]['content'][int(idx)]['topic'] = [lookup[k] for k in topics[0]]
+                except:
+                    print(topics)
     return data
 
 
@@ -289,7 +342,7 @@ if __name__=="__main__":
         data = extract_entities(data, device)
         conv = os.path.join(args.data_dir,args.fname+'.json')
         reading = os.path.join(args.reading,args.fname+'.json')
-        data = entity_topic_label(conv, reading, args.entity_assign_path, data)
+        data = entity_topic_label(conv, reading, args.fname, args.entity_assign_path, data)
         with open(os.path.join(args.data_dir,args.fname+'_comp.json'), 'w') as fw:
             json.dump(data, fw, sort_keys=False, ensure_ascii=False, indent=5)
 
