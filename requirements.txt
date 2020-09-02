@@ -2,3 +2,6 @@ torch==1.4.0
 python==3.6
 transformers==3.0.0
 yake==0.3.7
+nltk==3.4.5
+rake-nltk==1.0.4 
+pymagnitude==0.1.143
