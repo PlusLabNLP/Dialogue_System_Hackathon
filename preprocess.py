@@ -244,6 +244,9 @@ def keywords_stats(data):
     print('number of utterances with at least one keyword and less than three keywords {}'.format(num_utts_less3_kwds))
 
 def entity_topic_label(conv, reading,fname, entity_assign_path, data):
+    if not os.path.exists('./topic_cls/heuristics/GoogleNews-vectors-negative300.magnitude'):
+        print('Download word2vector Embedding')
+        os.system('wget -P ./topic_cls/heuristics http://magnitude.plasticity.ai/word2vec/light/GoogleNews-vectors-negative300.magnitude')
     #print(conv, reading, entity_assign_path)
     message_en,entity2,topic_general_en,s2 = label(conv, reading,entity_assign_path)
     index = list(data.keys())
@@ -338,6 +341,7 @@ if __name__=="__main__":
             data = json.load(fr)
 
     if args.mode =="extract":
+        
         data = extract_keywords(data)
         data = extract_entities(data, device)
         conv = os.path.join(args.data_dir,args.fname+'.json')
