@@ -5,3 +5,4 @@ yake==0.3.7
 nltk==3.4.5
 rake-nltk==1.0.4 
 pymagnitude==0.1.143
+fast-bert==1.9.1
