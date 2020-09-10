@@ -1,5 +1,9 @@
 import torch
 from transformers import AutoModelWithLMHead, AutoTokenizer
+from fairseq.models.bart import BARTModel
+import numpy as np
+
+
 
 
 class Interaction():
@@ -20,6 +24,11 @@ class Interaction():
             self.gen_model = AutoModelWithLMHead.from_pretrained(self.gen_model_path)
             self.gen_model.cuda()
             self.gen_model.eval()
+        else:
+            self.gen_model = BARTModel.from_pretrained(self.gen_model_path,checkpoint_file='checkpoint_best.pt',data_name_or_path=self.gen_model_path)
+            self.gen_model.cuda()
+            self.gen_model.eval()
+
         
 
     def get_topic(self, utterance):
@@ -100,8 +109,11 @@ class Interaction():
         '''
         this method calls the dial_gen model and returns generated utterance 
         '''
+        if self.gen_model_type == 'dialogpt':
+            input_dial_gen = user_utt_topic.strip() + ' <EOT> ' + user_utterance.strip() +  ' <EOU> ' + res_keywords.strip() + ' <EOK> '
+        else:
+            input_dial_gen = user_utt_topic.strip() + ' <EOT> ' + user_utterance.strip() +  ' <V> ' + res_keywords.strip()
 
-        input_dial_gen = user_utt_topic.strip() + ' <EOT> ' + user_utterance.strip() +  ' <EOU> ' + res_keywords.strip() + ' <EOK> '
 
         if self.gen_model_type =='dialogpt':
             context_tokens = self.tokenizer.encode(input_dial_gen, add_special_tokens=False)
@@ -124,12 +136,17 @@ class Interaction():
             response = self.tokenizer.decode(out[0], clean_up_tokenization_spaces=True)
             response = response[: response.find('\n') if self.stop_token else None]
         elif self.gen_model_type =='bart':
-            #Tuhin
+            np.random.seed(4)
+            torch.manual_seed(4)
+            maxb = 128 #Can be customized
+            minb = 15  #Can be customized
             response = ''
-
+            slines = [input_dial_gen]
+            with torch.no_grad():
+                hypotheses = self.gen_model.sample(slines, sampling=True, sampling_topk=5 ,temperature=0.7 ,lenpen=2.0, max_len_b=maxb, min_len=minb, no_repeat_ngram_size=3)
+            hypotheses = hypotheses[0]
+            response = hypotheses.replace('\n','')
         return response
-
-
 
 if __name__=="__main__":
 
