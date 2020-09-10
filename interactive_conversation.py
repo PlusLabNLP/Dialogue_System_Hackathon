@@ -47,11 +47,30 @@ class Interaction():
         return entities
 
     def get_response_keywords(self, utterance, topic, entities):
+        entities_comb = ''
+        for e in entities:
+            entities_comb = entities_comb+ e+ ' # '
+        input_conv = topic + ' <EOT> '+utterance+' <A0> '+entities_comb+'<A1>'
         '''
         this method calls the conv_line model and returns response keywords 
         '''
-        #Tuhin --> conv_line
-        keywords =''
+        np.random.seed(4)
+        torch.manual_seed(4)
+        maxb = 30 #Can be customized
+        minb = 15  #Can be customized
+        response = ''
+        slines = [input_conv]
+        with torch.no_grad():
+            hypotheses = self.gen_model.sample(slines, sampling=True, sampling_topk=5 ,temperature=0.7 ,lenpen=2.0, max_len_b=maxb, min_len=minb, no_repeat_ngram_size=3)
+        hypotheses = hypotheses[0]
+        response = hypotheses.replace('\n','')
+        keywords = response.replace('<V>','').replace('<s>').split('#')
+        k = []
+        for keyword in keywords:
+            keyword = keyword.lstrip()
+            keyword = keyword.rstrip()
+            k.append(keyword)
+        keywords = k
         return keywords
 
     def top_k_top_p_filtering(self, logits, filter_value=-float('Inf')):
