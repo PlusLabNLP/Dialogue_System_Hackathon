@@ -57,7 +57,7 @@ class Interaction():
         np.random.seed(4)
         torch.manual_seed(4)
         maxb = 30 #Can be customized
-        minb = 15  #Can be customized
+        minb = 7  #Can be customized
         response = ''
         slines = [input_conv]
         with torch.no_grad():
