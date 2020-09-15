@@ -336,7 +336,6 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
             elif 'No entity: topic change'==all_entity[i][0]:
                 check = False
                 tmp_sent = message[i].lower()
-                # {1:'Fashion',2:'Politics', 3:'Books', 4:'Sports',5:'General Entertainment',6:'Music',7:'Science & Technology', 8:'Movie'}
                 ext_temp = []
                 for x in topic_as[i]:
                     ext_temp = ext_temp+ext[x]
@@ -464,6 +463,7 @@ def label(conv, reading,entity_assign_path):#, embedding_path):
                 
                 temp2 = list(set(entity2[k1]+entity2[k2]))
                 temp2 = list(filter(lambda x:'No entity:'not in x,temp2))
+                temp2.sort()
                 entity2[i] = copy.copy(temp2)
             else:
                 # Rule6

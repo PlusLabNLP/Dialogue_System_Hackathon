@@ -257,7 +257,7 @@ def entity_topic_label(conv, reading,fname, entity_assign_path, data):
             if topic_general_en[idx_label[i]]==['General']:
                 data[idx_conv]['content'][i]['entity_reading_set']=''
             else:
-                data[idx_conv]['content'][i]['entity_reading_set']=entity2[idx_label[i]]
+                data[idx_conv]['content'][i]['entity_reading_set']=sorted(entity2[idx_label[i]])
     #with open(os.path.join('alexa-prize-topical-chat-dataset',fname+'_comp.json'), 'w') as fw:
     #        json.dump(data, fw, sort_keys=False, ensure_ascii=False, indent=5)
     os.system('cd topic_cls/heuristics/;python flatten_data.py %s;python label_with_rules.py %s;python label_with_keywords.py %s;cd ../..'%(fname,fname,fname))
