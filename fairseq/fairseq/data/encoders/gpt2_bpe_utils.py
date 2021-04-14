@@ -142,7 +142,7 @@ class Encoder:
         return text
 
 def get_encoder(encoder_json_path, vocab_bpe_path):
-    encoder_json_path = "/lfs1/tuhin/fairseq/encoder.json"
+    encoder_json_path = "/lfs1/tuhin/fairseq/encoder.json" #change to "/...YOUR_DIRECTORY.../Dialogue_System_Hackathon/fairseq/encoder.json"
     with open(encoder_json_path, 'r',encoding="utf-8") as f:
         encoder = json.load(f)
     with open(vocab_bpe_path, 'r', encoding="utf-8") as f:
