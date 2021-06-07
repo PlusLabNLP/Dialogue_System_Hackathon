@@ -17,9 +17,8 @@ We have four models that should be loaded to run the DiSCoL:
 2. topic_cls: is a finetuned BERT (Devlin et al., 2019) that predicts a topic label for each given dialogue utterance.
 3. bartgen: is a finetuned  BART (Lewis et al., 2019) model that generates next utterance (response) given dialogue context utterance, predicted convlines and topic.
 4. baseline: is the pretrained DialoGPT (Zhang et al., 2019) model that we consider as the baseline model to generate responses (it doesn't take the predicted keywords and topic as the input to generate the response).
-All these models can be downloaded from [here](https://drive.google.com/drive/folders/15ML4UyaCko4e7qxOyP0WRbMidWSph36b?usp=sharing).
 
-Download all these models and put them in a folder (eq. ./Models).
+Download all these models from [here](https://drive.google.com/drive/folders/15ML4UyaCko4e7qxOyP0WRbMidWSph36b?usp=sharing) and put them in a folder (eg. ./Models).
 Then try to update all the paths in the first four lines of webdemo/SETTING.py file accordingly such that DiSCoL would be able to locate and load them correctly.
 
 
