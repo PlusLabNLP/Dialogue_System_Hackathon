@@ -23,7 +23,7 @@ Then try to update all the paths in the first four lines of webdemo/SETTING.py f
 
 
 ## Access to a remote machine
-Try to run the demo on a machine with GPUs (You can remotely access the machine using coomand: ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER SERVER_NAME)
+Try to run the demo on a machine with GPUs (You can remotely access the machine using this command: ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER SERVER_NAME)
 
 ## Run demo 
 It is encouraged to run DiSCoL on a machine with GPUs. If your machine does not have a GPU, access to a machine with GPUs remotely using ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER MACHINE_NAME.
