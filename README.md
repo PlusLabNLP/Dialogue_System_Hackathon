@@ -1,6 +1,6 @@
 # Dialogue_System_Hackathon
 
-This repository consist of code, processed data and trained models leveraged in [DiSCoL: Toward Engaging Dialogue Systems through Conversational
+This repository consists of code, processed data and trained models leveraged in [DiSCoL: Toward Engaging Dialogue Systems through Conversational
 Line Guided Response Generation](https://www.aclweb.org/anthology/2021.naacl-demos.4.pdf). Please cite this work as: @article{Ghazarian2021, title={DiSCoL: Toward Engaging Dialogue Systems through Conversational Line Guided Response Generation}, author={Sarik Ghazarian and Zixi Liu and Tuhin Chakrabarty and Xuezhe Ma and Aram Galstyan and Nanyun Peng}, booktitle={2021 Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL), Demonstrations Track}, pages={26–34}, year={2021} }
 
 
