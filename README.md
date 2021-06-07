@@ -21,12 +21,8 @@ We have four models that should be loaded to run the DiSCoL:
 Download all these models from [here](https://drive.google.com/drive/folders/15ML4UyaCko4e7qxOyP0WRbMidWSph36b?usp=sharing) and put them in a folder (eg. ./Models).
 Then try to update all the paths in the first four lines of webdemo/SETTING.py file accordingly such that DiSCoL would be able to locate and load them correctly.
 
-
-## Access to a remote machine
-Try to run the demo on a machine with GPUs (You can remotely access the machine using this command: ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER SERVER_NAME)
-
 ## Run demo 
-It is encouraged to run DiSCoL on a machine with GPUs. If your machine does not have a GPU, access to a machine with GPUs remotely using ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER MACHINE_NAME.
+It is encouraged to run DiSCoL on a machine with GPUs. If your machine does not have a GPU, you can remotely access to a machine with GPUs using ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER MACHINE_NAME.
 
 On the connected server run the DiSCoL on a GPU: python webdemo/app.py
 
