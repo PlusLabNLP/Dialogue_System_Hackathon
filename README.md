@@ -12,27 +12,29 @@ Please feel free to contact [me](mailto:sarikgha@usc.edu) for any suggestions or
 Create a new environment from the webdemo.yml file which includes all the necessary libraries and packages to run the demo.
 
 ## Load the models
-We have four pretrained models that should be loaded to run the demo:
-1. ent_kwd: which predicts keywords given the dialogue context.
-2. topic_cls: which classifies each utterance in one of the existing topics.
-3. dialogpt: which is finetuned version of dialogpt on our data. It generates next utterance (response) given dialogue context, predicted keywords and topic.
-4. baseline: is the pretrained dialogpt model that we consider as the baseline model to generate response (it doesn't include the predicted keywords).
-All these models have been uploaded: 
+We have four models that should be loaded to run the DiSCoL:
+1. ent_kwd: is a finetuned BART (Lewis et al., 2019) model that predicts convlines given the dialogue context utterance, entities and topics.
+2. topic_cls: is a finetuned BERT (Devlin et al., 2019) that predicts a topic label for each given dialogue utterance.
+3. bartgen: is a finetuned  BART (Lewis et al., 2019) model that generates next utterance (response) given dialogue context utterance, predicted convlines and topic.
+4. baseline: is the pretrained DialoGPT (Zhang et al., 2019) model that we consider as the baseline model to generate response (it doesn't take the predicted keywords and topic as the input to generate the response).
+All these models can be downloaded from [here] (#https://drive.google.com/drive/folders/15ML4UyaCko4e7qxOyP0WRbMidWSph36b?usp=sharing)
 
-Download all these models and put them in a folder like: ./Models/
-Then try to update all the paths in the first four lines of webdemo/SETTING.py file accordingly.
+Download all these models and put them in a folder (eq. ./Models).
+Then try to update all the paths in the first four lines of webdemo/SETTING.py file accordingly such that DiSCoL would be able to locate and load them correctly.
 
 
 ## Access to a remote machine
 Try to run the demo on a machine with GPUs (You can remotely access the machine using coomand: ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER SERVER_NAME)
 
-## Run demo on GPU 
-CUDA_VISIBLE_DEVICES=0 python webdemo/app.py
+## Run demo 
+It is encouraged to run DiSCoL on a machine with GPUs. If your machine does not have a GPU, access to a machine with GPUs remotely using ssh -L PORT_NUMBER:127.0.0.1:PORT_NUMBER MACHINE_NAME.
+
+On the connected server run the DiSCoL on a GPU: python webdemo/app.py
 
 ## Converse with DiSCoL! 
 In your local browser, try to connect to the server: http://127.0.0.1:PORT_NUMBER
 
-Enjoy conversing with DiSCoL!
+The DiCoL should be ready to converse. Enjoy conversing with DiSCoL!
 
 
 
