@@ -10,7 +10,7 @@ Please feel free to contact [me](mailto:sarikgha@usc.edu) for any suggestions or
 
 ### Environment Creation
 Create a new environment from the webdemo.yml file
-webdemo.yml file includes all the necessary libraries and packages to run the demo.
+webdemo.yml file which includes all the necessary libraries and packages to run the demo.
 
 ## Load the models
 We have four pretrained models that should be loaded to run the demo:
