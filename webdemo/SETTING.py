@@ -1,7 +1,7 @@
-DIALOGPT = '/nas/home/zixiliu/dialogsystem_model/bartgen/'
-CONV_LINE = '/nas/home/zixiliu/dialogsystem_model/ent_kwd/'
-TOPIC = '/nas/home/zixiliu/dialogsystem_model/topic_cls/'
-BASELINE = '/nas/home/zixiliu/dialogsystem_model/baseline'
+DIALOGPT = 'dialogsystem_model/bartgen/'
+CONV_LINE = 'dialogsystem_model/ent_kwd/'
+TOPIC = 'dialogsystem_model/topic_cls/'
+BASELINE = 'dialogsystem_model/baseline'
 parser = {}
 parser['seed'] = 1000
 parser['gen_model_type'] = "bart"
