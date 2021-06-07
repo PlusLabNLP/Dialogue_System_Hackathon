@@ -4,7 +4,7 @@ This repository consists of code, processed data and trained models leveraged in
 Line Guided Response Generation](https://www.aclweb.org/anthology/2021.naacl-demos.4.pdf). Please cite this work as: @inproceedings{ghazarian2021discol, title={DiSCoL: Toward Engaging Dialogue Systems through Conversational Line Guided Response Generation}, author={Sarik Ghazarian and Zixi Liu and Tuhin Chakrabarty and Xuezhe Ma and Aram Galstyan and Nanyun Peng}, booktitle={2021 Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL), Demonstrations Track}, pages={26–34}, year={2021} }
 
 
-Please feel free to contact [me](mailto:sarikgha@usc.edu) for suggestions or any issues. 
+Please feel free to contact [me](mailto:sarikgha@usc.edu) for any suggestions or issues. 
 
 ## Steps to run the demo
 
